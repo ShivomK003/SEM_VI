@@ -22,6 +22,7 @@ def generateKeyTable(key):
 # diagraph 
 def diagraphGenerator(plaintext):
     plaintext = plaintext.upper().replace("J", "I")
+    plaintext = removeSpaces(plaintext)
     clean_text = []
     i = 0
     
@@ -34,7 +35,7 @@ def diagraphGenerator(plaintext):
                 clean_text.append(plaintext[i+1])
                 i += 1
         elif len(clean_text) % 2 != 0:
-            clean_text.append('X')
+            clean_text.append('Z')
         i+=1
     
     diagraph_list = [clean_text[i:i+2] for i in range(0, len(clean_text), 2)]
@@ -49,16 +50,63 @@ def find2DIndex(value, table):
     return None
     
 # column encrypt
-def columnEncryption(diagraph, keyTable):
-    ciphertext = ""
-    char1 = find2DIndex(diagraph[0], keyTable)
-    char2 = find2DIndex(diagraph[1], keyTable)
-    return char1, char2
+def columnEncryption(char1, char2, keyTable):
+    en_char1 = keyTable[(char1[0]+1)%5][char1[1]]
+    en_char2 = keyTable[(char2[0]+1)%5][char2[1]]
+    return en_char1 + en_char2
 
-plaintext = "instruments"
-key = "monarchy"
+# row encrypt
+def rowEncryption(char1, char2, keyTable):
+    en_char1 = keyTable[char1[0]][(char1[1]+1)%5]
+    en_char2 = keyTable[char2[0]][(char2[1]+1)%5]
+    return en_char1 + en_char2
 
-# correct format of key
+# rectangular encrypt
+def rectangularEncryption(char1, char2, keyTable):
+    en_char1 = keyTable[char1[0]][char2[1]]
+    en_char2 = keyTable[char2[0]][char1[1]]
+    return en_char1 + en_char2
+
+
+def playfairEncrypt(diagraph_list, keyTable):
+    encrypted_diagraphs = []
+    for diagraph in diagraph_list:
+        char1 = find2DIndex(diagraph[0], keyTable)
+        char2 = find2DIndex(diagraph[1], keyTable)
+        if char1[1] == char2[1]: # same column
+            encrypted_diagraphs.append(columnEncryption(char1, char2, keyTable))
+        elif char1[0] == char2[0]: # same row
+            encrypted_diagraphs.append(rowEncryption(char1, char2, keyTable))
+        else:
+            encrypted_diagraphs.append(rectangularEncryption(char1, char2, keyTable))
+
+    return encrypted_diagraphs
+
+
+def removeSpaces(text):
+    newText = ""
+    for i in text:
+        if i == " ":
+            continue
+        else:
+            newText = newText + i
+    return newText 
+
+
+# correct format of plaintext and diagraphs
+plaintext = input("Plain Text: ")
+diagraph_list = diagraphGenerator(plaintext)
+
+
+# correct format of key and keytable
+key = input("Key: ")
 key = "".join(dict.fromkeys(key.upper().replace("J", "I")))
 keyTable = generateKeyTable(key)
-print(columnEncryption("me", keyTable))
+
+
+encrypted_diagraphs = playfairEncrypt(diagraph_list, keyTable)
+encrypted = ""
+for diagraph in encrypted_diagraphs:
+    encrypted += diagraph
+
+print("Cipher Text: ", encrypted)
