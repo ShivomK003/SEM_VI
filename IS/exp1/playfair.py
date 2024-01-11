@@ -109,4 +109,5 @@ encrypted = ""
 for diagraph in encrypted_diagraphs:
     encrypted += diagraph
 
-print("Cipher Text: ", encrypted)
+print("Cipher Text: ", encrypted.lower())
+
