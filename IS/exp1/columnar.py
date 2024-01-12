@@ -1,8 +1,3 @@
-plaintext = "Geeks for Geeks"
-plaintext = plaintext.replace(" ", "_")
-
-key = "HACK"
-
 def orderOfCol(keyword):
     unique_letters = sorted(set(keyword))
     order_dict = {letter: str(index) for index, letter in enumerate(unique_letters)}
@@ -15,15 +10,15 @@ def orderOfCol(keyword):
     return sorted(column_index_order, key= lambda column: column[0])
 
 def columnarEncrypt(plaintext, key):
-    n = len(key)
-    x = len(plaintext)%n
+    columns = len(key)
+    x = len(plaintext)%columns
     for i in range(0, 4 - x):
         plaintext += "_"
-
-    encryptionTable = [["" for i in range(n)] for i in range(x)]
+    rows = int(len(plaintext)/columns)
+    encryptionTable = [["" for i in range(columns)] for i in range(rows)]
     text_index = 0
-    for i in range(n):
-        for j in range(n):
+    for i in range(rows):
+        for j in range(columns):
             encryptionTable[i][j] = plaintext[text_index]
             text_index += 1
     
@@ -36,5 +31,9 @@ def columnarEncrypt(plaintext, key):
 
 
 
+plaintext = input("Plain Text: ")
+plaintext = plaintext.replace(" ", "_")
 
-print(columnarEncrypt(plaintext, key))
+key = input("Key: ")
+ciphertext = columnarEncrypt(plaintext, key)
+print("Cipher Text: " + ciphertext)
