@@ -60,3 +60,65 @@ subplot(2, 4, 7);
 cx = linspace(-2*pi, 2*pi, 40);
 cy = cos(cx);
 cosine_signal = stem(cx, cy);
+
+
+% --PERFORMING OPERATIONS ON THE ABOVE SIGNALS-- %
+
+figure(2);
+
+% Adding Unit Step Signal and Increasing Exponential Signal
+subplot(2,4,1);
+added_signal = zeros(size(sx));
+for i = 1:length(sx)
+    added_signal(i) = sy(i) + cy(i);
+end
+stem(sx, added_signal);
+title('Added');
+% Subtracting Ramp Signal and Unit Step Signal
+subplot(2,4,2);
+subtracted_signal = zeros(size(sx));
+for i = 1:length(sx)
+    subtracted_signal(i) = sy(i) - cy(i);
+end
+stem(sx, subtracted_signal);
+title('Subtracted');
+
+% Multiplying Ramp Signal and Cosine Signal
+subplot(2,4,3);
+multiplied_signal = zeros(size(sx));
+for i = 1:length(sx)
+    multiplied_signal(i) = sy(i) * cy(i);
+end
+stem(sx, multiplied_signal);
+title('Multiplied');
+
+% Upscale and Downscale the Added Signal by 2
+subplot(2,4,4);
+upscaled_added_signal = added_signal * 2;
+stem(sx, upscaled_added_signal);
+title('Upscaled');
+
+subplot(2,4,5);
+downscaled_added_signal = added_signal / 2;
+stem(sx, downscaled_added_signal);
+title('Downscaled');
+
+% Shift Operation on Multiplied Signal
+shift_amount = 5;
+
+subplot(2,4,6);
+shifted_multiplied_signal_advance = zeros(size(sx));
+for i = 1:length(sx)-shift_amount
+    shifted_multiplied_signal_advance(i+shift_amount) = multiplied_signal(i);
+end
+stem(sx, shifted_multiplied_signal_advance);
+title('R Shifted');
+
+
+subplot(2,4,7);
+shifted_multiplied_signal_delay = zeros(size(sx));
+for i = shift_amount+1:length(sx)
+    shifted_multiplied_signal_delay(i-shift_amount) = multiplied_signal(i);
+end
+stem(sx, shifted_multiplied_signal_delay);
+title('L Shifted');
