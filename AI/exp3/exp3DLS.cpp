@@ -39,7 +39,7 @@ void solveQueensDLS(vector<vector<int>>& solutions, vector<int>& board, int row,
 
 
 void printChessboard(const vector<int>& board, int solutionNumber) {
-    cout << "Solution " << solutionNumber << ":\n";
+    cout << "Solution #" << solutionNumber << ":\n";
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
             if (board[i] == j)
@@ -54,24 +54,25 @@ void printChessboard(const vector<int>& board, int solutionNumber) {
 
 int main() {
     vector<vector<int>> solutions;
-    vector<int> board(N, 0); 
+    vector<int> board(N, 0);  // Initialize the chessboard with all queens in the first column
 
-    int depthLimit = 8;  
+    int depthLimit = 8;  // Depth limit for DLS
 
-    auto start = high_resolution_clock::now();
+    auto start = high_resolution_clock::now();  // Start the timer
 
     solveQueensDLS(solutions, board, 0, depthLimit);
 
-    auto stop = high_resolution_clock::now(); 
+    auto stop = high_resolution_clock::now();  // Stop the timer
 
+    // Print all the solutions
     for (int i = 0; i < solutions.size(); ++i) {
         printChessboard(solutions[i], i + 1);
     }
 
-    auto duration = duration_cast<milliseconds>(stop - start);
+    auto duration = duration_cast<microseconds>(stop - start);
 
     cout << "Total number of solutions: " << solutions.size() << "\n";
-    cout << "Execution time: " << duration.count() << " milliseconds\n";
+    cout << "Execution time: " << duration.count() << " microseconds\n";
 
     return 0;
 }

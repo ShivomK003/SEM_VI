@@ -29,7 +29,7 @@ bool isSafe(const Board& board, int row, int col) {
 void printBoard(const Board& board) {
     static int solutionNumber = 1;
 
-    cout << "Solution " << solutionNumber++ << ":\n";
+    cout << "Solution #" << solutionNumber++ << ":\n";
 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
@@ -76,7 +76,7 @@ void solveQueens() {
     auto stop = high_resolution_clock::now(); // Record the stop time
     auto duration = duration_cast<microseconds>(stop - start);
 
-    cout << "Time taken by function: " << duration.count() << " microseconds" << endl;
+    cout << "Total runtime: " << duration.count() << " microseconds" << endl;
 }
 
 int main() {

@@ -65,9 +65,9 @@ void solveNQueens() {
     }
 
     auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(stop - start);
+    auto duration = duration_cast<microseconds>(stop - start);
 
-    cout << "Total runtime: " << duration.count() << " milliseconds\n";
+    cout << "Total runtime: " << duration.count() << " microseconds\n";
 }
 
 int main() {
