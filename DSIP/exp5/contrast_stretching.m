@@ -1,0 +1,11 @@
+clearvars;
+b = imread("kodak_pixpro_fz201_01.jpg");
+b = rgb2gray(b);
+z = b * 0.4;
+k = b * 1.4;
+figure(1);
+imshow(b);
+figure(2);
+imshow(z);
+figure(3);
+imshow(k);

@@ -1,43 +1,69 @@
-% Suspects
-suspect(miss_scarlet).
-suspect(colonel_mustard).
-suspect(mrs_peacock).
-suspect(mr_green).
-suspect(mrs_white).
+% Facts 
+male(sunai).
+male(ashish).
+male(ravi).
+male(subarao).
+male(amit).
+male(shivom).
+male(ishaan).
+male(shlok).
+male(samved).
 
-% Victim
-victim(prof_plum).
+female(sunanda).
+female(vishaka).
+female(kanchan).
+female(asha).
+female(nilima).
+female(mrinal).
 
-% Murder weapon
-murder_weapon(knife).
+parent(ashish, sunai).
+parent(ashish, sunanda).
+parent(kanchan, sunai).
+parent(kanchan, sunanda).
 
-% Motives
-motive(miss_scarlet, jealousy).
-motive(colonel_mustard, revenge).
-motive(mrs_peacock, blackmail).
-motive(mr_green, greed).
+parent(amit, subarao).
+parent(amit, asha).
+parent(vishaka, subarao).
+parent(vishaka, asha).
 
-% Clues
-clue(miss_scarlet, was_near_scene).
-clue(colonel_mustard, has_fingerprints_on_weapon).
-clue(mr_green, has_alibi).
-clue(mrs_peacock, has_alibi).
-clue(mrs_white, found_with_bloodstains).
+parent(shivom, ashish).
+parent(shivom, vishaka).
+parent(mrinal, ashish).
+parent(mrinal, vishaka).
+parent(ishaan, amit).
+parent(ishaan, nilima).
+parent(shlok, kanchan).
+parent(shlok, ravi).
+parent(samved, kanchan).
+parent(samved, ravi).
+
+married(vishaka, ashish).
+married(ashish, vishaka).
+married(ravi, kanchan).
+married(kanchan, ravi).
+married(amit, nilima).
+married(nilima, amit).
+married(asha, subarao).
+married(subarao, asha).
+married(sunai, sunanda).
+married(sunanda, sunai).
 
 % Rules
-has_alibi(X) :-
-    suspect(X),
-    clue(X, has_alibi).
+father(X, Y) :- parent(X, Y), male(Y).
+mother(X, Y) :- parent(X, Y), female(Y).
+grandfather(X, Z) :- parent(X, Y), father(Y, Z).
+grandmother(X, Z) :- parent(X, Y), mother(Y, Z).
 
-guilty(X) :-
-    suspect(X),
-    motive(X, _),
-    clue(X, has_fingerprints_on_weapon),
-    not(clue(X, has_alibi)).
+sibling(X, Y) :- father(X, Z), father(Y, Z), mother(X, W), mother(Y, W), X \= Y.
+sister(X, Y) :- sibling(X, Y), female(Y).
+brother(X, Y) :- sibling(X, Y), male(Y).
 
-% Solution
-murderer(Killer, Weapon, Motive, Clue) :-
-    guilty(Killer),
-    murder_weapon(Weapon),
-    motive(Killer, Motive),
-    clue(Killer, Clue).
+aunt(X, Y) :- father(X, Z), sister(Z,Y)  ; mother(X, Z), sister(Z,Y).
+uncle(X, Y) :- father(X, Z), brother(Z,Y)  ; mother(X, Z), brother(Z,Y).
+
+cousin(X, Y) :- parent(Y, Z), aunt(X, Z) ; parent(Y, Z), uncle(X, Z) ; cousin(X, Z), cousin(Z, Y).
+
+parent_in_law(X, Y) :- parent(Z, Y), married(X, Z).
+father_in_law(X, Y) :- parent_in_law(X, Y), male(Y).
+mother_in_law(X, Y) :- parent_in_law(X, Y), female(Y).
+
