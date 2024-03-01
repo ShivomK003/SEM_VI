@@ -1,6 +1,8 @@
 import heapq
 import timeit
 
+step_count = 0
+
 class PuzzleState:
     def __init__(self, board, parent=None, move=None):
         self.board = board
@@ -56,6 +58,7 @@ def reconstruct_path(state):
     return path[::-1]
 
 def a_star_search(initial_state):
+    global step_count
     open_set = [initial_state]
     closed_set = set()
     start_time = timeit.default_timer()
@@ -65,7 +68,8 @@ def a_star_search(initial_state):
 
         if current_state.is_goal():
             print("Goal reached!")
-            print("Current State:")
+            step_count += 1
+            print(f"Current State {step_count}: ")
             print("Board:", current_state.board)
             print("g(n):", current_state.cost)
             print("h(n):", current_state.heuristic)
@@ -88,7 +92,8 @@ def a_star_search(initial_state):
                 neighbor.heuristic = neighbor.calculate_heuristic()
                 heapq.heappush(open_set, neighbor)
 
-        print("Current State:")
+        step_count += 1
+        print(f"Current State {step_count}: ")
         print("Board:", current_state.board)
         print("g(n):", current_state.cost)
         print("h(n):", current_state.heuristic)
@@ -101,7 +106,7 @@ def a_star_search(initial_state):
     return None
 
 if __name__ == "__main__":
-    initial_board = [1, 2, 3, 4, 0, 5, 7, 8, 6] 
+    initial_board = [3, 1, 2, 4, 0 ,5, 6, 7, 8] 
     initial_state = PuzzleState(initial_board)
 
     solution = a_star_search(initial_state)
