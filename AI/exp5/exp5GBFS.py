@@ -1,6 +1,6 @@
 import heapq
 import timeit
-
+ 
 class PuzzleState:
     def __init__(self, board, parent=None, move=None):
         self.board = board
@@ -69,9 +69,8 @@ def greedy_best_first_search(initial_state):
             print("Solution found:")
             print("Current State:")
             print("Board:", current_state.board)
-            print("g(n):", current_state.depth)
             print("h(n):", current_state.heuristic)
-            print("f(n):", current_state.depth + current_state.heuristic)
+            print("f(n):", current_state.heuristic)
             print("====================")
             end_time = timeit.default_timer()
             elapsed_time = end_time - start_time
@@ -86,9 +85,8 @@ def greedy_best_first_search(initial_state):
 
         print("Current State:")
         print("Board:", current_state.board)
-        print("g(n):", current_state.depth)
         print("h(n):", current_state.heuristic)
-        print("f(n):", current_state.depth + current_state.heuristic)
+        print("f(n):", current_state.heuristic)
         print("====================")
 
     end_time = timeit.default_timer()

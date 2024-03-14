@@ -106,7 +106,7 @@ def a_star_search(initial_state):
     return None
 
 if __name__ == "__main__":
-    initial_board = [3, 1, 2, 4, 0 ,5, 6, 7, 8] 
+    initial_board = [1, 2, 3, 4, 0, 5, 7, 8, 6] 
     initial_state = PuzzleState(initial_board)
 
     solution = a_star_search(initial_state)
